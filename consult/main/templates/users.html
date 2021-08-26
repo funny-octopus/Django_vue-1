@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% load static %}
+{% load bootstrap_icons %}
+{% block title %}Пользователи{% endblock title %}
+
+{% block custom_head %}
+<script src="{% static 'js/vue_dev.js' %}"></script>
+{% endblock custom_head %}
+
+{% block test %}{% endblock test %}
+{% block container %}
+<div id="app">
+    <div class="d-flex justify-content-between">
+        <h1 class="h4 mb-3 d-inline-block">Список пользователей:</h1>
+        <div v-show="change_stat" >
+            <button @click="save_changes" class="btn">
+                Сохранить
+                {% bs_icon 'check-circle'  size='1.5em' color='green' %}
+            </button>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col" class="col">#</th>
+                    <th scope="col" class="col-2">Имя</th>
+                    <th scope="col" class="col-2">Фамилия</th>
+                    <th scope="col" class="col-2">Отчество</th>
+                    <th scope="col" class="col-2">Роль</th>
+                    <th scope="col" class="col-2">Email</th>
+                    <th scope="col" class="col-2">Пароль</th>
+                    <th scope="col" class="col">#</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>-</td>
+                    <td v-for="item,name in users[0]">
+                        <input v-if="name != 'role'" class="w-100" type="text">
+                        <select class="w-100 form-select form-select-sm" v-else>
+                            <option selected></option>
+                            <option v-for="role in roles" :value="role">[[ role ]]</option>
+                        </select>
+                    </td>
+                    <td><button  type="button" class="btn btn-sm p-0">{% bs_icon 'plus' size='2em' %}</button></td>
+                </tr>
+                <tr v-for="user, index in users">
+                    <th scope="row">[[ index+1 ]]</th>
+                    <td v-for="item, name in user">
+                        <div :class="name === 'password' ? 'd-flex justify-content-between' : ''">
+                            <div @dblclick="ch(index+name)" :class="name === 'password' ? 'd-inline-block' : 'd-block'">
+                                <div v-show="showing_input != index+name" >
+                                    <span v-if="name === 'password'" v-show="showing_pass != index+1">**********</span>
+                                    <span v-if="name === 'password'" v-show="showing_pass === index+1">[[ item ]]</span>
+                                    <span v-if="name != 'password'">[[ item ]]</span>
+                                </div>
+                                <input 
+                                      v-if="name != 'role'"
+                                      class="w-100 minw"
+                                      @keyup.enter="showing_input=''"
+                                      @blur="showing_input=''"
+                                      @change="change_stat=true" 
+                                      v-show="showing_input === index+name"
+                                      v-model="users[index][name]"
+                                      :ref="index+name"
+                                      :type="name === 'password' ? 'password' : 'text'">
+                                <select 
+                                      v-if="name === 'role'"
+                                      class="w-100 form-select form-select-sm"
+                                      @blur="showing_input=''"
+                                      @change="change_stat=true" 
+                                      v-show="showing_input === index+name"
+                                      v-model="users[index][name]"
+                                      :ref="index+name">
+                                    <option v-for="role in roles" :value="role" :selected="role === item">[[ role ]]</option>
+                                </select>
+                            </div>
+                            <button class="btn btn-sm m-0 p-0" v-if="name === 'password'" type="button">
+                                <div v-show="showing_pass != index+1" @click="show_pass(true, index+1)">
+                                    {% bs_icon 'eye-fill' size='1.5em' %}
+                                </div>
+                                <div v-show="showing_pass === index+1" @click="show_pass(false, index+1)">
+                                    {% bs_icon 'eye-slash-fill' size='1.5em' %}
+                                </div>
+                            </button>
+                        </div>
+                    </td>
+                    <td><button type="button" class="btn btn-close" aria-label="Close"></button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock container %}
+
+{% block custom_scripts %}
+<script src="{% static 'js/users.js' %}"></script>
+{% endblock custom_scripts %}

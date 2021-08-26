@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% load bootstrap_icons %}
+    {% load django_bootstrap5 %}
+    {% bootstrap_css %}
+    <title>Log in</title>
+    <link rel="stylesheet" href="{% static 'css/signin.css' %}" />
+</head>
+<body>
+    <main class="form-signin text-center">
+      <form>
+        <h1 class="h3 mb-5 ">Вход</h1>
+        <div class="row mb-4">
+            <div class="col-2 mt-1">
+                {% bs_icon 'person-fill' color='lightgrey' size='1.5em' %}
+            </div>
+          <div class="col-10">
+              <input type="email" class="form-control" placeholder="Ваш Email">
+          </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-2 mt-1">
+                {% bs_icon 'lock-fill' color='lightgrey' size='1.5em' %}
+            </div>
+          <div class="col-10">
+              <input type="password" class="form-control" placeholder="Ваш пароль">
+          </div>
+        </div>
+        <button class="w-100 btn btn-lg btn-primary" type="submit">Войти</button>
+      </form>
+    </main>
+</body>
+</html>
+

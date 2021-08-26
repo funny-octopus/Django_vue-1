@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% load bootstrap_icons %}
+    {% load django_bootstrap5 %}
+    {% bootstrap_css %}
+    <title>{% block title %}Consult Application{% endblock title %}</title>
+    {% block custom_head %}{% endblock custom_head %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}"/>
+    <script>
+        function show_element(selector){
+                    var s = document.querySelectorAll(selector);
+                    for (let el of s){
+                        el.classList.toggle("show");
+                    }
+                };
+    </script>
+</head>
+<body>
+    {% block sidebar %}
+     <nav id="sidebarMenu" class="collapse d-lg-block sidebar bg-white">
+         <div class="position-sticky">
+             <!-- <div class="sidebar-header"><span class="h5">Меню</span></div> -->
+             <!-- <div class="list-group list-group-flush mx-3 mt-4"> -->
+                 <!-- <a href="#" class="list-group-item list-group-item-action py-2 ripple" aria-current="true" > -->
+                 <!--     <span>Main dashboard</span> -->
+                 <!-- </a> -->
+                 <!-- <a href="#" class="list-group-item list-group-item-action py-2 ripple"> -->
+                 <!--     <span>Sales</span> -->
+                 <!-- </a> -->
+        <div class="list-group list-group-flush mx-3 mt-3">
+            <a class="list-group-item list-group-item-action py-2 ripple" type='button' onclick="show_element('#sprv');show_element('.sprv_shevron')">
+                <span>Справочники:</span>
+                {% bs_icon 'chevron-down' extra_classes='sprv_shevron collapse show' %}
+                {% bs_icon 'chevron-up' extra_classes='sprv_shevron collapse' %}
+            </a>
+                <!-- <ul id="sprv" class='collapse list-group list-group-flush mx-3'> -->
+                <ul id="sprv" class='collapse mx-3 p-1 list-unstyled'>
+                    <li>
+                        <a class="text-secondary" href='/okved'>ОКВЭД</a>
+                    </li>
+                    <li>
+                        <a class="text-secondary" href='/positions'>Должности</a>
+                    </li>
+                    <li>
+                        <a class="text-secondary" href='/own_forms'>Формы собственности</a>
+                    </li>
+                    <li>
+                        <a class="text-secondary" href='/clients_cat'>Категории клиентов</a>
+                    </li>
+                </ul>
+            <a class="list-group-item list-group-item-action py-2 ripple" href="/clients">
+                <span>Клиенты</span>
+            </a>
+            <a class="list-group-item list-group-item-action py-2 ripple" href="#">
+                <span>Пакет шаблонов</span>
+            </a>
+            <a class="list-group-item list-group-item-action py-2 ripple" type="button" onclick="show_element('#logs');show_element('.log_shevron')">
+                <span>Логи:</span>
+                {% bs_icon 'chevron-down' extra_classes='log_shevron collapse show' %}
+                {% bs_icon 'chevron-up' extra_classes='log_shevron collapse' %}
+            </a>
+                <!-- <ul id='logs' class='collapse list-group list-group-flush mx-3'> -->
+                <ul id="logs" class='collapse mx-3 p-1 list-unstyled'>
+                    <li>
+                        <a class="text-secondary" href='#'>логи событий</a>
+                    </li>
+                    <li>
+                        <a class="text-secondary" href='#'>логи изменений</a>
+                    </li>
+                </ul>
+            <a class="list-group-item list-group-item-action py-2 ripple" href='/users'>
+                <span>Пользователи</span>
+            </a>
+            <a class="list-group-item list-group-item-action py-2 ripple" href='#'>
+                <span>Oтчет об окончании срока клиентов</span>
+            </a>
+        </div>
+             <!-- </div> -->
+         </div>
+     </nav>
+    {% endblock sidebar %}
+    
+    {% block navbar %}
+        <nav id="main-navbar"  class="navbar navbar-expand-lg navbar-light bg-info mb-3 fixed-top">
+            <div class="container-fluid">
+                    <button class="navbar-toggler" type="button" onclick="show_element('.sidebar')"  >
+                        {% bs_icon 'list' color='grey' size='1.5em' %}
+                    </button>
+                    <div class="navbar-brand">
+                        <a class='text-decoration-none' href="/">{% bs_icon 'facebook' color='primary' size='1.5em' %}</a>
+                        <span class='d-lg-inline collapse'>Название</span>
+                    </div>
+                <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> -->
+                <!--     <span class="navbar-toggler-icon"></span> -->
+                <!-- </button> -->
+                <a class='text-decoration-none' href="#">
+                    <div>
+                        {% bs_icon 'person-circle' color='grey' size='1.5em' %}
+                        <em class='text-dark d-lg-inline collapse'>Username</em>
+                    </div>
+                </a>
+            </div>
+        </nav>
+    {% endblock navbar %}
+    <div class="container-fluid">
+        <main>
+            {% block container %}
+            {% endblock container %}
+        </main>
+    </div>
+
+    {% block footer %} 
+    <footer>
+    </footer> 
+    {% endblock footer %}
+
+    {% block scripts %}
+    {% endblock scripts %}
+
+    {% block custom_scripts %}{% endblock custom_scripts %}
+</body>
+</html>
